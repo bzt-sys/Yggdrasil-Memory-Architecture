@@ -34,7 +34,7 @@ The following diagram provides a consolidated view of the agent, events, outcome
 
 The full conceptual description, including motivation, structure, update dynamics, diagrams, and examples, is available here:
 
-**paper/Yggdrasil_Memory_Architecture_v9.pdf**
+**Yggdrasil_Memory_Architecture_v9.pdf**
 
 The paper introduces:
 
@@ -96,10 +96,10 @@ These diagrams are intended to provide structural intuition for readers.
 ```
 /
 ├── diagrams/
-│   ├── Yggdrasil_overview300dpi.png
-│   ├── memory_update_flow.png
+│   ├── Yggdrasil_overview.png
+│   ├── MemUpdate.png
 │   ├── concept_density.png
-│   ├── meso_layer_audit.png
+│   ├── meso_layer.png
 │   └── interaction_timescales.png
 │
 ├── paper/
