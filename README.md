@@ -26,7 +26,7 @@ This repository contains the whitepaper and diagrams describing the architecture
 
 The following diagram provides a consolidated view of the agent, events, outcome structure, and the evolving memory substrate.
 
-![Yggdrasil Overview](diagrams/Yggdrasil_overview300dpi.png)
+![Yggdrasil Overview](diagrams/Yggdrasil_overview.png)
 
 ---
 
@@ -34,7 +34,7 @@ The following diagram provides a consolidated view of the agent, events, outcome
 
 The full conceptual description, including motivation, structure, update dynamics, diagrams, and examples, is available here:
 
-**Yggdrasil_Memory_Architecture_v9.pdf**
+**Yggdrasil_Memory_Architecture_v1.pdf**
 
 The paper introduces:
 
@@ -145,7 +145,7 @@ If referencing this work:
   author={Benjamin Thompson},
   year={2025},
   publisher={GitHub},
-  note={Conceptual Release v0.9},
+  note={Conceptual Release v1},
   howpublished={\url{https://github.com/REPO_LINK}}
 }
 ```
