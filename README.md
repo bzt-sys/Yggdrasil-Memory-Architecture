@@ -1,7 +1,7 @@
 # Yggdrasil Memory Architecture
 A Governing Memory Substrate for Long-Horizon, Adaptive Artificial Agents  
 Author: Benjamin Thompson  
-Version: 0.9 (Conceptual Release)
+Version: 1.0 (Conceptual Release)
 
 ---
 
