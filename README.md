@@ -4,7 +4,8 @@ Author: Benjamin Thompson
 Version: 1.0 (Conceptual Release)
 
 ---
-
+## Watch the Demo Video:
+https://www.youtube.com/watch?v=sNClcIdkHsU
 ## Overview
 
 The Yggdrasil Memory Architecture is a conceptual framework for constructing artificial agents with stable, adaptive, long-term behavior. It reframes memory as a structural component of cognition rather than a passive retrieval mechanism. Events, outcomes, sub-nodes, and emergent concepts form a governed graph substrate that evolves deterministically over time.
