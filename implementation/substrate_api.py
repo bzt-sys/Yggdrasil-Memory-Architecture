@@ -45,6 +45,7 @@ class SubstrateAPI:
         text: str,
         source: str = "cli",
         provenance: Optional[Dict[str, Any]] = None,
+        event_id: Optional[str] = None,
     ) -> str:
         """
         Record an event and immediately ingest it into the substrate.
@@ -63,6 +64,7 @@ class SubstrateAPI:
             text=text,
             source=source,
             provenance=provenance,
+            event_id=event_id,
         )
         self.engine.adjudicate_and_ingest(event_id)
         return event_id
@@ -73,6 +75,7 @@ class SubstrateAPI:
         score: float,
         label: str = "",
         tags: Optional[List[str]] = None,
+        outcome_id: Optional[str] = None,
     ) -> str:
         """
         Record an outcome node for the current episode or step context.
@@ -85,7 +88,7 @@ class SubstrateAPI:
         Returns:
         - the created outcome id
         """
-        return self.engine.write_outcome(score=score, label=label, tags=tags)
+        return self.engine.write_outcome(score=score, label=label, tags=tags, outcome_id=outcome_id)
 
     def end_step(self) -> None:
         """

@@ -30,6 +30,7 @@ def build_context_bundle(
     concepts: List[Dict[str, Any]],
     recent_episodes: List[Dict[str, Any]],
     evidence: Optional[List[Dict[str, Any]]] = None,
+    routing_state: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """
     Build the canonical structured context bundle.
@@ -47,6 +48,7 @@ def build_context_bundle(
         "concepts": concepts,
         "recent_episodes": recent_episodes,
         "evidence": evidence or [],
+        "routing_state": routing_state or {},
     }
     return bundle
 

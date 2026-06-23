@@ -16,7 +16,7 @@ The intended workflow is:
 
 1. user submits a prompt
 2. the engine ingests and adjudicates the event
-3. deterministic substrate context is assembled
+3. substrate context is assembled
 4. the actor generates a response
 5. the assistant response is ingested back into the substrate
 6. the user may optionally score the result with :rate
@@ -32,6 +32,8 @@ from typing import List, Optional
 from .actor_hf import ActorConfig, HFActor
 from .memory import HybridAdjudicator, YggdrasilEngine
 from .storage import JsonlLogger
+from .session_state import SessionStore
+from .evidence import export_evidence_bundle
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -42,6 +44,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     ap.add_argument("--session", default="demo-session", help="Session identifier.")
     ap.add_argument("--log", default="./logs/demo.jsonl", help="Path to the JSONL log file.")
+    ap.add_argument("--session-root", default="sessions", help="Root directory for standardized session artifacts.")
+    ap.add_argument("--use-session-store", action="store_true", help="Write canonical session log to sessions/<session>/events.jsonl.")
+    ap.add_argument("--resume", action="store_true", help="Rebuild previous session state from sessions/<session>/events.jsonl before accepting prompts.")
 
     ap.add_argument(
         "--debug-lexical",
@@ -56,6 +61,27 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         default=0,
         help="Automatically print :trace N after each completed step if N > 0.",
+    )
+
+    ap.add_argument(
+        "--no-decay",
+        action="store_true",
+        help=(
+            "Disable decay/compression/failsafe maintenance for controlled replay "
+            "experiments. Governance topology is still formed; pruning dynamics are skipped."
+        ),
+    )
+
+    ap.add_argument(
+        "--export-evidence",
+        action="store_true",
+        help="Export graph/state/evidence artifacts on startup/resume before entering the interactive loop.",
+    )
+
+    ap.add_argument(
+        "--export-dir",
+        default=None,
+        help="Optional directory for exported evidence artifacts.",
     )
 
     ap.add_argument(
@@ -114,9 +140,18 @@ def print_banner() -> None:
     print(
         "Yggdrasil v0.28\n"
         "Commands: :rate 0-9 [tags...], :lesson <text>, :ablate [on|off], "
-        ":trace N, :stats, :quit"
+        ":trace N, :stats, :graph, :export-evidence [dir], :quit"
     )
 
+def default_evidence_dir(args: argparse.Namespace, store: SessionStore) -> str:
+    """Choose the default evidence export directory."""
+    if args.export_dir:
+        return args.export_dir
+
+    if args.resume or args.use_session_store:
+        return store.paths(args.session).artifacts_dir
+
+    return f"evidence/{args.session}"
 
 def handle_rate(
     user_in: str,
@@ -249,7 +284,7 @@ def run_interaction(
     ev_id = eng.write_event(role="user", text=user_in)
     eng.adjudicate_and_ingest(ev_id)
 
-    context_text = eng.get_context_text()
+    context_text = eng.get_context_text(prompt_text=user_in)
     if context_text:
         if getattr(eng, "_last_context_json", ""):
             logger.log(
@@ -278,14 +313,46 @@ def main() -> None:
     """Run the interactive Yggdrasil CLI."""
     args = build_parser().parse_args()
 
-    logger = JsonlLogger(args.log)
     adjudicator = HybridAdjudicator(enable_lexical_default=bool(args.debug_lexical))
-    eng = YggdrasilEngine(
-        session_id=args.session,
-        logger=logger,
-        adjudicator=adjudicator,
-    )
+    store = SessionStore(args.session_root)
+
+    if args.resume or args.use_session_store:
+        session_paths = store.paths(args.session)
+        logger = JsonlLogger(session_paths.events_jsonl)
+        if args.resume:
+            eng = store.resume_engine(
+                args.session,
+                adjudicator=adjudicator,
+                append_log_path=session_paths.events_jsonl,
+                verify=True,
+                enable_decay=not bool(args.no_decay),
+            )
+            report = getattr(eng, "_last_resume_report", None)
+            if report:
+                status = "PASS" if report.get("ok") else "FAIL"
+                print(f"[RESUME] {status} step={eng.step} hash={report.get('final_hash', '')[:12]}...")
+        else:
+            eng = YggdrasilEngine(
+                session_id=args.session,
+                logger=logger,
+                adjudicator=adjudicator,
+                enable_decay=not bool(args.no_decay),
+            )
+    else:
+        logger = JsonlLogger(args.log)
+        eng = YggdrasilEngine(
+            session_id=args.session,
+            logger=logger,
+            adjudicator=adjudicator,
+            enable_decay=not bool(args.no_decay),
+        )
+    
     actor = make_actor(args)
+
+    if args.export_evidence:
+        out_dir = default_evidence_dir(args, store)
+        export_evidence_bundle(eng, out_dir)
+        print(f"[EXPORT] evidence written to {out_dir}")
 
     last_assistant_id: Optional[str] = None
     pending_rating: Optional[dict] = None
@@ -317,6 +384,17 @@ def main() -> None:
 
         if user_in.startswith(":ablate") or user_in.startswith(":ablation"):
             handle_ablation(user_in, eng)
+            continue
+
+        if user_in.startswith(":graph"):
+            print(eng.graph.format_summary())
+            continue
+
+        if user_in.startswith(":export-evidence"):
+            parts = user_in.split(maxsplit=1)
+            out_dir = parts[1].strip() if len(parts) > 1 else default_evidence_dir(args, store)
+            export_evidence_bundle(eng, out_dir)
+            print(f"[EXPORT] evidence written to {out_dir}")
             continue
 
         if user_in.startswith(":stats"):
