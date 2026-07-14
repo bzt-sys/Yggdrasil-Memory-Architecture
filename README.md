@@ -1,166 +1,238 @@
-# Yggdrasil Memory Architecture
-A Governing Memory Substrate for Long-Horizon, Adaptive Artificial Agents  
-Author: Benjamin Thompson  
-Version: 1.0 (Conceptual Release)
+# Yggdrasil
 
----
-## Watch the Demo Video:
-https://www.youtube.com/watch?v=sNClcIdkHsU
-## Overview
+### A Replayable Developmental Substrate for Adaptive AI Agents
 
-The Yggdrasil Memory Architecture is a conceptual framework for constructing artificial agents with stable, adaptive, long-term behavior. It reframes memory as a structural component of cognition rather than a passive retrieval mechanism. Events, outcomes, sub-nodes, and emergent concepts form a governed graph substrate that evolves deterministically over time.
-
-The architecture is designed to support:
-
-- Coherent long-horizon adaptation  
-- Deterministic learning from experience  
-- Emergent abstraction through conceptual density  
-- Governed pruning, decay, and reinforcement  
-- Multi-timescale behavioral stability  
-- Integration with existing LLM-based reasoning layers  
-
-This repository contains the whitepaper and diagrams describing the architecture at a conceptual level.
+**Author:** Benjamin Thompson
+**Current Milestone:** HumanEval Developmental Baseline (v0.7.0)
 
 ---
 
-## High-Level Diagram
+# Overview
 
-The following diagram provides a consolidated view of the agent, events, outcome structure, and the evolving memory substrate.
+Yggdrasil is an experimental developmental substrate designed to investigate how large language model agents can **improve through persistent experience without modifying model weights**.
 
-![Yggdrasil Overview](diagrams/Yggdrasil_overview.png)
+Rather than treating memory as passive retrieval, Yggdrasil treats development as a structured lifecycle:
 
----
+```
+Experience
+    ↓
+Investigation
+    ↓
+Candidate Knowledge
+    ↓
+Validation
+    ↓
+Governance
+    ↓
+Future Behavior
+```
 
-## Whitepaper
+Every stage is recorded through deterministic event sourcing, enabling replay, inspection, ablation, and causal analysis of behavioral change.
 
-The full conceptual description, including motivation, structure, update dynamics, diagrams, and examples, is available here:
-
-**Yggdrasil_Memory_Architecture_v1.pdf**
-
-The paper introduces:
-
-- Structural components: events, outcomes, sub-nodes, concepts  
-- Salience, permanence, decay, and conceptual density mechanisms  
-- Memory update flow and promotion heuristics  
-- The meso-layer audit cycle  
-- Multi-horizon interaction patterns  
-- Example diagrams illustrating internal behavior  
-
----
-
-## Core Concepts
-
-### Memory as Structure  
-Most existing systems treat memory as a database or retrieval index.  
-Yggdrasil treats memory as an evolving structural substrate influencing the agent’s behavior at every step.
-
-### Deterministic Update Dynamics  
-Every event or outcome updates the graph using measurable quantities:
-
-- Salience  
-- Permanence  
-- Conceptual density  
-- Graph connectivity and topology  
-
-This enables reproducibility and direct interpretability of learning.
-
-### Emergent Concepts  
-Clusters of frequently connected sub-nodes accumulate density until they qualify as concepts.  
-Concepts serve as stable anchors for abstraction, generalization, and long-term coherence.
-
-### Outcome-Based Adaptation  
-Outcome nodes represent positive or negative consequences of an agent’s actions.  
-They determine both reinforcement and pruning pressure across the substrate.
-
-### Meso-Layer Audit  
-Beyond local updates, the architecture incorporates a periodic audit cycle that examines wider behavioral history.  
-This process identifies drift, reinforces beneficial patterns, and adjusts routing or weighting strategies.
+The long-term objective is to study persistent developmental adaptation inside real software engineering environments.
 
 ---
 
-## Diagrams
+# Current Research Status
 
-Diagrams included in the `/diagrams` directory:
+This repository now contains the **HumanEval Developmental Baseline**, representing the completion of the first major experimental phase.
 
-- Overview graph of the architecture  
-- Memory update flow  
-- Concept density formation  
-- Meso-layer audit cycle  
-- Multi-timescale interaction example  
+The HumanEval phase was **not intended to maximize benchmark performance**.
 
-These diagrams are intended to provide structural intuition for readers.
+Instead, it validated the operation of the developmental substrate itself, including:
+
+* Persistent developmental state
+* Event sourcing
+* Replay and reconstruction
+* Investigation generation
+* Recurrent failure collation
+* Success anchoring
+* Developmental orchestration
+* Governance proposal generation
+* Locality-aware knowledge organization
+* Regression-aware utility tracking
+* Developmental trace instrumentation
+
+The benchmark now serves primarily as a **mechanism validation and regression suite** before transitioning into richer environments.
 
 ---
 
-## Repository Structure
+# Core Philosophy
+
+Traditional LLM memory systems primarily retrieve information.
+
+Yggdrasil instead investigates how experience itself can become structured developmental knowledge.
+
+The central research hypothesis is:
+
+> Experience should become evidence.
+>
+> Evidence should become hypotheses.
+>
+> Validated hypotheses should become durable behavioral structure.
+>
+> Durable structure should improve future reasoning.
+
+---
+
+# Architectural Components
+
+Current implementation includes:
+
+## Event-Sourced Development
+
+Every interaction produces replayable developmental events rather than opaque state changes.
+
+---
+
+## Investigations
+
+Failures create structured investigations describing:
+
+* observed behavior
+* possible causes
+* repair directions
+* missing evidence
+
+---
+
+## Developmental Collation
+
+Repeated experiences are periodically analyzed to generate:
+
+* developmental observations
+* candidate abstractions
+* recurrent episode summaries
+* validation candidates
+
+---
+
+## Success Anchoring
+
+Verified successful experiences become reusable exemplars for future reasoning.
+
+Anchor utility is tracked over time and evaluated against later outcomes.
+
+---
+
+## Governance
+
+Rather than immediately promoting every lesson, governance proposals are generated from validated developmental evidence.
+
+Governance remains evidence-driven rather than heuristic.
+
+---
+
+## Replay
+
+Development can be reconstructed from deterministic event history.
+
+Replay is treated as a first-class design objective to support debugging, experimentation, and causal attribution.
+
+---
+
+# Current Repository
 
 ```
 /
+├── imp/                 # Developmental substrate implementation
+├── evaluations/         # HumanEval evaluation harness
+├── replay/              # Replay and reconstruction
+├── docs/
 ├── diagrams/
-│   ├── Yggdrasil_overview.png
-│   ├── MemUpdate.png
-│   ├── concept_density.png
-│   ├── meso_layer.png
-│   └── interaction_timescales.png
-│
-├── paper/
-│   └── Yggdrasil_Memory_Architecture_v9.pdf
-│
-├── examples/          # Reserved for future implementation work
-│
 ├── README.md
 └── LICENSE
 ```
 
 ---
 
-## Future Work
+# Experimental Progression
 
-Planned additions to this repository include:
+## Completed
 
-- Reference implementation of the memory substrate  
-- A small demonstration agent  
-- Concept density measurement utilities  
-- Integration patterns for LLM-based reasoning layers  
-- Empirical evaluation and benchmarks  
-- Additional documentation and examples  
-
-The current release focuses on articulating the conceptual architecture and establishing priority for the design.
-
----
-
-## License
-
-A suitable default license for conceptual research is Creative Commons Attribution 4.0 (CC BY 4.0).  
-Include the full license text in the `LICENSE` file.
+* Replayable developmental substrate
+* Investigation lifecycle
+* Recurrent failure collation
+* Success anchoring
+* Developmental orchestration
+* Governance proposal pipeline
+* Replay diagnostics
+* HumanEval mechanism validation
 
 ---
 
-## Citation
+## Current Development
 
-If referencing this work:
+The project is now transitioning from isolated benchmark problems to a persistent software engineering environment.
 
-```
-@misc{thompson2025yggdrasil,
-  title={The Yggdrasil Memory Architecture},
-  author={Benjamin Thompson},
-  year={2025},
-  publisher={GitHub},
-  note={Conceptual Release v1},
-  howpublished={\url{https://github.com/REPO_LINK}}
-}
-```
+The next research phase introduces:
+
+* sandboxed IDE workspace
+* persistent repositories
+* replayable file revisions
+* deterministic tool interactions
+* cross-file developmental transfer
+* layered developmental memory
 
 ---
 
-## Contributing
+# Long-Term Research Goals
 
-Discussion, critique, and extensions are welcome.  
-Future pull requests focused on implementation, evaluation, or integration are encouraged.
+Yggdrasil ultimately aims to investigate questions such as:
+
+* What is the minimum reasoning capability required for persistent development?
+* How should developmental knowledge be represented?
+* How does replay improve scientific understanding of adaptive agents?
+* How should governance evolve from repeated evidence?
+* How should long-term developmental memory interact with reasoning?
+
+The project emphasizes reproducibility, observability, and causal understanding over benchmark optimization.
 
 ---
 
-## Purpose of This Release
+# Demonstration
 
-This repository establishes the initial conceptual framework for the Yggdrasil Memory Architecture.  
-It is intended as a foundation for further research, experimentation, and system-level development of adaptive artificial agents.
+The original conceptual demonstration video can be found here:
+
+https://www.youtube.com/watch?v=sNClcIdkHsU
+
+An updated implementation demonstration covering the HumanEval baseline and the forthcoming IDE environment is planned.
+
+---
+
+# Roadmap
+
+**Completed**
+
+* Conceptual architecture
+* Initial implementation
+* HumanEval developmental baseline
+
+**In Progress**
+
+* Persistent IDE workspace
+* Tool-mediated software development
+* Layered developmental memory
+* Cross-task developmental transfer
+
+**Future**
+
+* Multi-model evaluation
+* Developmental corpus ingestion
+* Adaptive locality geometry
+* Teacher–student developmental experiments
+* Persistent embodied environments
+
+---
+
+# Citation
+
+If referencing this work, please cite the repository version corresponding to the implementation milestone being discussed.
+
+---
+
+# Contributing
+
+Constructive discussion, critique, replication, and experimental validation are welcome.
+
+The primary goal of this repository is to serve as a transparent research platform for studying developmental adaptation in AI systems.
